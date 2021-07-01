@@ -17,38 +17,30 @@
 
   <!-- navi bar -->
   <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Offcanvas navbar</a>
-    <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
     <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="#">Lista de Pacotes<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Notifications</a>
+          <a class="nav-link" href="#">Destino</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Profile</a>
+          <a class="nav-link" href="#">Briquedos Sul</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Switch account</a>
+          <a class="nav-link" href="#">Grupo Região</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">Settings</a>
-          <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Por Vendedor</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Destino e Tipo</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <input class="form-control mr-sm-2" type="text" placeholder="Buscar Cod." aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
       </form>
     </div>
   </nav>
@@ -83,21 +75,19 @@
         </tr>
       </thead>
       <tbody> 
-        <tr>
-          <td>888555555123888</td>
-          <td><span class="badge badge-danger">Inválido</span></td>
-          <td>Vendendor não pode possui códido invalido</td>
-        </tr>
-        <tr>
-          <td>888555555123888</td>
-          <td><span class="badge badge-success">Válido</span></td>
-          <td></td>
-        </tr>
-        {% for code in codes %}
+        {% for code, status_observation in codes.items() %}
         <tr>
             <td>{{ code }}</td>
+            {% if status_observation['status'] == 'Válido' %}
+            <td><span class="badge badge-success">Válido</span></td>
+            {% else %}
+            <td><span class="badge badge-danger">Inválido</span></td>
+            {% endif %}
+            {% if status_observation['observation'] == None %}
             <td></td>
-            <td></td>
+            {% else %}
+            <td> {{ status_observation['observation'] }}</td>
+            {% endif %}
         </tr>
         {% endfor %}
       </tbody>

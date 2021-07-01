@@ -15,37 +15,46 @@ def read_package_codes():
 
 
 def check_product_type(product_type):
-    if product_type not in PRODUCT_TYPE.keys():
-        return 'O produto não possui possui um tipo válido'
+    if int(product_type) not in PRODUCT_TYPE.keys():
+        return 'O produto não possui possui um tipo válido.'
 
 
 def check_send_package(cod_origin, cod_type, origin=111, product_type=000):
-    if cod_origin == origin and cod_type == product_type:
-        return 'Não é possível despachar pacotes contendo jóias tendo como região de origem o Centro-oeste'
+    if (int(cod_origin) == origin) and (int(cod_type) == product_type):
+        print('Não é possível despachar pacotes contendo jóias tendo como região de origem o Centro-oeste.')
+        return 'Não é possível despachar pacotes contendo jóias tendo como região de origem o Centro-oeste.'
 
 
-def check_code_seller(cod_seller, check_cod_seller=(584)):
-    if cod_seller in check_cod_seller:
-        return 'O vendedor está com seu CNPJ inativo e, portanto, não pode mais enviar pacotes pela Loggi,'
+def check_code_seller(cod_seller, check_cod_seller=(584,)):
+    if int(cod_seller) in check_cod_seller:
+        return 'O vendedor está com seu CNPJ inativo e, portanto, não pode mais enviar pacotes pela Loggi.'
 
 
 def split_package_code_to_verify():
     dict_codes = {}
     package_codes = read_package_codes()
     for code in package_codes:
-        # dict_codes[code] = 
-        c = re.compile('(\d{3})(\d{3})(\d{3})(\d{3})(\d{3})')
-        f = c.search(code)
+        compiler = re.compile('(\d{3})(\d{3})(\d{3})(\d{3})(\d{3})')
+        splited_code = compiler.search(code)
 
-        if check_product_type(f.group(5)) and \
-            check_send_package(f.group(1), f.group(5)) and \
-            check_code_seller(f.group(4)):
-            
+        result_product_type = check_product_type(splited_code.group(5))
+        result_send_package = check_send_package(splited_code.group(1), splited_code.group(5))
+        result_code_seller = check_code_seller(splited_code.group(4))
+
+        if result_product_type is not None:
+            dict_codes[code] = {'status':'Inválido', 'observation': result_product_type}
+        elif result_send_package is not None:
+            dict_codes[code] = {'status':'Inválido', 'observation': result_send_package}
+        elif result_code_seller is not None:
+            dict_codes[code] = {'status':'Inválido', 'observation': result_code_seller}
+        else:
+            dict_codes[code] = {'status':'Válido', 'observation': None}
+    return dict_codes
 
 
 @app.route("/")
 def valid_codes(codes=None):
-    
+    package_codes = split_package_code_to_verify()
     return render_template('valid_codes.html', codes=package_codes)
 
 
