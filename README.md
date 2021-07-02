@@ -30,6 +30,11 @@ Abra o projeto
 cd desafio-estagio-loggi
 ```
 
+Instale as libs
+```
+pip install -r requirements.txt 
+```
+
 E execute
 ```
 python app.py
