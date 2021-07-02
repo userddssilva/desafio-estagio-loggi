@@ -2,8 +2,7 @@
 
 Este repositório contém os arquivos usados para realizar o desafio para a turma de estágio da Loggi
 
-Link of online project: https://dashboard.heroku.com/apps/desafio-estagio-loggi-sp/logs
-
+Link of online project: https://desafio-estagio-loggi-sp.herokuapp.com/
 ## Como executar
 
 Instale o virtualenv
