@@ -1,13 +1,13 @@
 import re
 from flask import Flask, render_template
-from constants import CODE_REG, PRODUCT_TYPE
+from .constants import CODE_REG, PRODUCT_TYPE
 
 app = Flask(__name__)
 
 
 def read_package_codes():
     codes = []
-    with open('database', 'r') as fl:
+    with open('app/database', 'r') as fl:
         for line in fl.readlines():
             code = line.split(': ')[1] # get package code
             codes.append(code)
@@ -124,8 +124,6 @@ def code_type_group(package_codes):
             if type_product not in dest_dict.keys():
                 dest_dict[type_product] = []
             dest_dict[type_product].append((code, destino))
-    from pprint import pprint 
-    pprint(dest_dict)
     return dest_dict
 
 
@@ -169,7 +167,3 @@ def destino_e_tipo():
     package_codes = split_package_code_to_verify()
     codes = code_type_group(package_codes)
     return render_template('tipo.html', codes=codes)
-
-
-if __name__ == '__main__':
-    app.run(host='localhost', port=5000, debug=True)
