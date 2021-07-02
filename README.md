@@ -26,7 +26,9 @@ https://docs.python.org/3/library/venv.html
 E por fim para executar o projecto
 
 Abra o projeto
+```
 cd desafio-estagio-loggi
+```
 
 E execute
 ```
